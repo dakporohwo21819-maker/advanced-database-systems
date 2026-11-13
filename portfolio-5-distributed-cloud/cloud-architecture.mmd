@@ -1,0 +1,67 @@
+graph TB
+    subgraph Users["End Users"]
+        A1[Church Admin<br/>Lagos]
+        A2[Church Admin<br/>Abuja]
+        A3[Church Admin<br/>London Diaspora]
+        M1[Members<br/>Mobile App]
+    end
+
+    subgraph CDN["CloudFront CDN"]
+        CF[Edge Locations<br/>Lagos, Abuja, London]
+    end
+
+    subgraph LB["Load Balancer"]
+        ALB[Application Load Balancer<br/>af-south-1]
+    end
+
+    subgraph App["Application Tier - ECS Fargate"]
+        API1[Shepherd API<br/>Container 1]
+        API2[Shepherd API<br/>Container 2]
+        API3[Shepherd API<br/>Container n]
+    end
+
+    subgraph Cache["Cache Layer"]
+        R1[ElastiCache Redis<br/>Primary]
+        R2[ElastiCache Redis<br/>Replica]
+    end
+
+    subgraph DB["Database Tier - RDS PostgreSQL"]
+        PG_P[PostgreSQL Primary<br/>AZ-a<br/>Writes + Critical Reads]
+        PG_S[PostgreSQL Standby<br/>AZ-b<br/>Sync Replication]
+        PG_R1[Read Replica<br/>AZ-c<br/>Dashboard Queries]
+    end
+
+    subgraph Storage["Object Storage"]
+        S3[S3 Bucket<br/>Church Media, Backups<br/>Encrypted at Rest]
+    end
+
+    subgraph Monitor["Monitoring"]
+        CW[CloudWatch<br/>Metrics + Alarms]
+        SM[Secrets Manager<br/>DB Credentials]
+    end
+
+    A1 & A2 & A3 & M1 --> CF
+    CF --> ALB
+    ALB --> API1 & API2 & API3
+    API1 & API2 & API3 --> R1
+    R1 --> R2
+    API1 & API2 & API3 --> PG_P
+    API1 & API2 & API3 --> PG_R1
+    PG_P -->|Sync WAL| PG_S
+    PG_P -->|Async WAL| PG_R1
+    API1 & API2 & API3 --> S3
+    PG_P & R1 --> CW
+
+    classDef primary fill:#2563eb,stroke:#1d4ed8,color:#fff
+    classDef replica fill:#7c3aed,stroke:#6d28d9,color:#fff
+    classDef cache fill:#dc2626,stroke:#b91c1c,color:#fff
+    classDef app fill:#059669,stroke:#047857,color:#fff
+    classDef user fill:#d97706,stroke:#b45309,color:#fff
+    classDef storage fill:#0891b2,stroke:#0e7490,color:#fff
+
+    class PG_P primary
+    class PG_S,PG_R1 replica
+    class R1,R2 cache
+    class API1,API2,API3 app
+    class A1,A2,A3,M1 user
+    class S3 storage
