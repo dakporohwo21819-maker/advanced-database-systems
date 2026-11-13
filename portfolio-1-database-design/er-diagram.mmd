@@ -1,0 +1,147 @@
+erDiagram
+    CHURCHES ||--o{ USERS : "has"
+    CHURCHES ||--o{ MEMBERS : "has"
+    CHURCHES ||--o{ GROUPS : "has"
+    CHURCHES ||--o{ EVENTS : "hosts"
+    CHURCHES ||--o{ DONATIONS : "receives"
+    CHURCHES ||--o{ COMMUNICATIONS : "sends"
+    CHURCHES ||--o{ PLEDGES : "tracks"
+
+    USERS ||--o| MEMBERS : "linked to"
+    USERS ||--o{ EVENTS : "creates"
+    USERS ||--o{ DONATIONS : "records"
+    USERS ||--o{ COMMUNICATIONS : "sends"
+
+    MEMBERS ||--o{ GROUP_MEMBERS : "joins"
+    GROUPS ||--o{ GROUP_MEMBERS : "contains"
+    MEMBERS }o--|| GROUPS : "leads"
+
+    EVENTS ||--o{ ATTENDANCE : "tracks"
+    MEMBERS ||--o{ ATTENDANCE : "attends"
+
+    MEMBERS ||--o{ DONATIONS : "gives"
+    MEMBERS ||--o{ PLEDGES : "commits"
+
+    COMMUNICATIONS ||--o{ COMMUNICATION_RECIPIENTS : "targets"
+    MEMBERS ||--o{ COMMUNICATION_RECIPIENTS : "receives"
+    GROUPS ||--o| COMMUNICATIONS : "targeted by"
+
+    CHURCHES {
+        int church_id PK
+        varchar name
+        varchar denomination
+        text address
+        varchar city
+        varchar country
+        varchar phone
+        varchar email UK
+        varchar website
+        date founded_date
+    }
+
+    USERS {
+        int user_id PK
+        int church_id FK
+        varchar first_name
+        varchar last_name
+        varchar email UK
+        varchar password_hash
+        varchar role
+        boolean is_active
+        timestamptz last_login
+    }
+
+    MEMBERS {
+        int member_id PK
+        int church_id FK
+        int user_id FK
+        varchar first_name
+        varchar last_name
+        varchar gender
+        date date_of_birth
+        varchar phone
+        varchar email
+        date member_since
+        varchar status
+    }
+
+    GROUPS {
+        int group_id PK
+        int church_id FK
+        varchar name
+        text description
+        varchar group_type
+        int leader_id FK
+    }
+
+    GROUP_MEMBERS {
+        int group_member_id PK
+        int group_id FK
+        int member_id FK
+        varchar role_in_group
+        date joined_at
+    }
+
+    EVENTS {
+        int event_id PK
+        int church_id FK
+        varchar title
+        text description
+        varchar event_type
+        varchar location
+        timestamptz start_time
+        timestamptz end_time
+        boolean is_recurring
+        int created_by FK
+    }
+
+    ATTENDANCE {
+        int attendance_id PK
+        int event_id FK
+        int member_id FK
+        timestamptz check_in_time
+        varchar check_in_method
+    }
+
+    DONATIONS {
+        int donation_id PK
+        int church_id FK
+        int member_id FK
+        numeric amount
+        varchar currency
+        varchar donation_type
+        varchar payment_method
+        varchar reference_no
+        date donation_date
+    }
+
+    COMMUNICATIONS {
+        int communication_id PK
+        int church_id FK
+        varchar subject
+        text body
+        varchar channel
+        varchar target_type
+        int target_group_id FK
+        int sent_by FK
+        varchar status
+    }
+
+    COMMUNICATION_RECIPIENTS {
+        int recipient_id PK
+        int communication_id FK
+        int member_id FK
+        boolean delivered
+        timestamptz delivered_at
+    }
+
+    PLEDGES {
+        int pledge_id PK
+        int church_id FK
+        int member_id FK
+        varchar campaign
+        numeric amount_pledged
+        numeric amount_fulfilled
+        date due_date
+        varchar status
+    }
