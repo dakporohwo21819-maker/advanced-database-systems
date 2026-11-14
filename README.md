@@ -1,6 +1,6 @@
-# Advanced Database Systems — Individual Practical Portfolio
+# Advanced Database Systems: Individual Practical Portfolio
 
-**Module:** MIT 8103 — Advanced Database Systems
+**Module:** MIT 8103, Advanced Database Systems
 **Student:** David Akporohwo
 **Case Study:** Shepherd App (Church Operations SaaS by Duten Nexa)
 **Database:** PostgreSQL 16
@@ -15,12 +15,12 @@ Shepherd is a multi-tenant SaaS platform that manages church operations: member 
 
 | # | Portfolio | Marks | Description |
 |---|---|---|---|
-| 1 | [Database Design & Normalisation](portfolio-1-database-design/) | 7 | 11-table schema, ER diagram, UNF → BCNF analysis |
+| 1 | [Database Design & Normalisation](portfolio-1-database-design/) | 7 | 11-table schema, ER diagram, UNF â BCNF analysis |
 | 2 | [Query Techniques & Optimisation](portfolio-2-query-optimisation/) | 7 | 10 SQL queries (JOINs, CTEs, window functions), EXPLAIN ANALYZE |
 | 3 | [Transactions & Concurrency](portfolio-3-transactions-concurrency/) | 7 | COMMIT, ROLLBACK, SAVEPOINT, isolation levels, row locking |
 | 4 | [NoSQL & Advanced Data Models](portfolio-4-nosql/) | 7 | MongoDB, Redis, Neo4j implementations for Shepherd |
 | 5 | [Distributed & Cloud Databases](portfolio-5-distributed-cloud/) | 6 | Replication, sharding, CAP theorem, AWS architecture |
-| — | Final Documentation & Reflection | 6 | LMS submission, technical reflection, AI-use declaration |
+| - | Final Documentation & Reflection | 6 | LMS submission, technical reflection, AI-use declaration |
 
 **Total: 40 marks**
 
