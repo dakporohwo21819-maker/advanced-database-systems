@@ -1,4 +1,4 @@
-# Graph Model â Shepherd App (Neo4j)
+# Graph Model: Shepherd App (Neo4j)
 
 ## Use Case
 
