@@ -1,5 +1,5 @@
 -- =============================================================================
--- Shepherd App â Seed Data for Query Optimisation Portfolio
+-- Shepherd App, Seed Data for Query Optimisation Portfolio
 -- =============================================================================
 
 -- Churches
@@ -22,7 +22,7 @@ VALUES
 -- Members (30 members across 3 churches)
 INSERT INTO members (church_id, user_id, first_name, last_name, gender, date_of_birth, phone, email, member_since, status)
 VALUES
--- Grace Chapel (church 1) â 15 members
+-- Grace Chapel (church 1), 15 members
 (1, 1, 'Emeka', 'Okafor', 'Male', '1980-05-10', '08012345678', 'emeka@gracechapel.ng', '2010-03-15', 'active'),
 (1, 2, 'Blessing', 'Adekunle', 'Female', '1992-08-22', '08023456789', 'blessing@gracechapel.ng', '2012-01-10', 'active'),
 (1, 3, 'Tunde', 'Bakare', 'Male', '1988-11-03', '08034567890', 'tunde@gracechapel.ng', '2013-06-20', 'active'),
@@ -39,7 +39,7 @@ VALUES
 (1, NULL, 'Ngozi', 'Uchenna', 'Female', '1996-05-25', '07045678901', 'ngozi.u@gmail.com', '2022-03-10', 'active'),
 (1, NULL, 'Oluwaseun', 'Falade', 'Male', '1989-11-11', '07056789012', 'seun.f@gmail.com', '2016-06-30', 'active'),
 
--- Covenant Assembly (church 2) â 10 members
+-- Covenant Assembly (church 2), 10 members
 (2, 4, 'Sarah', 'Musa', 'Female', '1983-02-20', '09012345678', 'sarah@covenantabuja.org', '2015-07-01', 'active'),
 (2, 5, 'Ibrahim', 'Yusuf', 'Male', '1990-06-15', '09023456789', 'ibrahim@covenantabuja.org', '2016-01-15', 'active'),
 (2, NULL, 'Amina', 'Abdullahi', 'Female', '1994-09-03', '09034567890', 'amina.a@gmail.com', '2017-05-20', 'active'),
@@ -51,7 +51,7 @@ VALUES
 (2, NULL, 'Joseph', 'Tanko', 'Male', '1984-10-14', '09090123456', 'joseph.t@gmail.com', '2017-08-20', 'active'),
 (2, NULL, 'Khadija', 'Abubakar', 'Female', '1995-11-27', '09001234567', 'khadija.a@gmail.com', '2022-04-15', 'active'),
 
--- Harvesters PH (church 3) â 5 members
+-- Harvesters PH (church 3), 5 members
 (3, 6, 'Chioma', 'Nwosu', 'Female', '1986-08-05', '08112345678', 'chioma@harvestersph.org', '2018-11-20', 'active'),
 (3, NULL, 'Obinna', 'Agu', 'Male', '1991-04-12', '08123456789', 'obinna.a@gmail.com', '2019-03-10', 'active'),
 (3, NULL, 'Nneka', 'Okonkwo', 'Female', '1993-07-29', '08134567890', 'nneka.o@gmail.com', '2020-01-20', 'active'),
