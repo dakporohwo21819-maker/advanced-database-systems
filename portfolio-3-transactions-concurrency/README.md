@@ -1,4 +1,4 @@
-# Portfolio 3 â Transactions and Concurrency
+# Portfolio 3: Transactions and Concurrency
 
 ## Overview
 
