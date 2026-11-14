@@ -1,4 +1,4 @@
-# Portfolio 5 â Distributed and Cloud Database Exercise
+# Portfolio 5: Distributed and Cloud Database Exercise
 
 ## Overview
 
@@ -21,24 +21,24 @@ Single-leader with read replicas across Lagos, Abuja, and London. PostgreSQL WAL
 
 ### Sharding
 
-Tenant-based sharding using `church_id` as the shard key. Because every Shepherd query is scoped to a single church, all of a church's data â members, donations, attendance â lives on the same shard, eliminating cross-shard joins entirely.
+Tenant-based sharding using `church_id` as the shard key. Because every Shepherd query is scoped to a single church, all of a church's data (members, donations, attendance) lives on the same shard, eliminating cross-shard joins entirely.
 
 ### CAP Theorem
 
 Shepherd adopts a **mixed CP/AP strategy** based on data criticality:
 
-- **CP (consistency preferred):** Donations, pledges, member profiles â financial and identity data must be authoritative, so synchronous replication is used.
-- **AP (availability preferred):** Attendance check-ins, dashboard caches, session tokens â brief inconsistency is acceptable; availability during live services is not negotiable.
+- **CP (consistency preferred):** Donations, pledges, member profiles, financial and identity data must be authoritative, so synchronous replication is used.
+- **AP (availability preferred):** Attendance check-ins, dashboard caches, session tokens, brief inconsistency is acceptable; availability during live services is not negotiable.
 
 ### Cloud Deployment
 
 AWS-based architecture using af-south-1 (Cape Town) as the primary region:
 
-- **Amazon RDS for PostgreSQL** â Multi-AZ with automated failover
-- **ElastiCache for Redis** â Session management and caching
-- **ECS Fargate** â Containerised API with auto-scaling
-- **S3** â Media storage with cross-region replication
-- **CloudWatch** â Monitoring and alerting
+- **Amazon RDS for PostgreSQL**: Multi-AZ with automated failover
+- **ElastiCache for Redis**: Session management and caching
+- **ECS Fargate**: Containerised API with auto-scaling
+- **S3**: Media storage with cross-region replication
+- **CloudWatch**: Monitoring and alerting
 
 ### Disaster Recovery
 
