@@ -1,10 +1,10 @@
 -- =============================================================================
--- Shepherd App â Church Operations SaaS
--- MIT 8103 Advanced Database Systems â Portfolio 1: Database Design & Modelling
+-- Shepherd App, Church Operations SaaS
+-- MIT 8103 Advanced Database Systems , Portfolio 1: Database Design & Modelling
 -- DDL Script (PostgreSQL 16)
 -- =============================================================================
 
--- 1. CHURCHES (tenant table â every other entity belongs to a church)
+-- 1. CHURCHES (tenant table, every other entity belongs to a church)
 CREATE TABLE churches (
     church_id       SERIAL PRIMARY KEY,
     name            VARCHAR(200)  NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE churches (
     updated_at      TIMESTAMPTZ   NOT NULL DEFAULT NOW()
 );
 
--- 2. USERS (login accounts â pastors, admins, volunteers)
+-- 2. USERS (login accounts, pastors, admins, volunteers)
 CREATE TABLE users (
     user_id         SERIAL PRIMARY KEY,
     church_id       INT           NOT NULL REFERENCES churches(church_id),
@@ -35,7 +35,7 @@ CREATE TABLE users (
     created_at      TIMESTAMPTZ   NOT NULL DEFAULT NOW()
 );
 
--- 3. MEMBERS (church congregation members â may or may not have a user account)
+-- 3. MEMBERS (church congregation members, may or may not have a user account)
 CREATE TABLE members (
     member_id       SERIAL PRIMARY KEY,
     church_id       INT           NOT NULL REFERENCES churches(church_id),
@@ -67,7 +67,7 @@ CREATE TABLE groups (
     created_at      TIMESTAMPTZ   NOT NULL DEFAULT NOW()
 );
 
--- 5. GROUP_MEMBERS (many-to-many: members â groups)
+-- 5. GROUP_MEMBERS (many-to-many: members <-> groups)
 CREATE TABLE group_members (
     group_member_id SERIAL PRIMARY KEY,
     group_id        INT           NOT NULL REFERENCES groups(group_id),
