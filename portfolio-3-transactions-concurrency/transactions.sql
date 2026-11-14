@@ -1,5 +1,5 @@
 -- =============================================================================
--- Shepherd App â Portfolio 3: Transactions and Concurrency
+-- Shepherd App, Portfolio 3: Transactions and Concurrency
 -- Demonstrates COMMIT, ROLLBACK, SAVEPOINT, isolation, and concurrency control
 -- =============================================================================
 
@@ -57,7 +57,7 @@ VALUES (1, 3, -5000.00, 'NGN', 'tithe', 'cash', '2026-11-01', 2);
 ROLLBACK;
 
 -- Verify nothing changed
-SELECT 'SCENARIO 2 RESULT: Transaction rolled back â no changes persisted' AS status;
+SELECT 'SCENARIO 2 RESULT: Transaction rolled back, no changes persisted' AS status;
 SELECT COUNT(*) AS donations_after FROM donations;
 
 
@@ -151,7 +151,7 @@ SELECT 'SCENARIO 5: Lost Update prevention with SELECT ... FOR UPDATE' AS status
 -- Session A reads pledge (fulfilled = 150000), calculates new = 150000 + 25000 = 175000
 -- Session B reads pledge (fulfilled = 150000), calculates new = 150000 + 30000 = 180000
 -- Session A writes 175000
--- Session B writes 180000 â Session A's update is LOST
+-- Session B writes 180000, Session A's update is LOST
 
 -- With FOR UPDATE locking (the solution):
 BEGIN;
