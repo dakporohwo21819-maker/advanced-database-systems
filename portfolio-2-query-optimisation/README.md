@@ -1,4 +1,4 @@
-# Portfolio 2 â Query Processing and Optimisation
+# Portfolio 2: Query Processing and Optimisation
 
 ## Overview
 
