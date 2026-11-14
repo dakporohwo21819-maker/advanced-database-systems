@@ -1,5 +1,5 @@
 // =============================================================================
-// Shepherd App â Portfolio 4: NoSQL (MongoDB Document Model)
+// Shepherd App, Portfolio 4: NoSQL (MongoDB Document Model)
 // Run with: mongosh shepherd_nosql < mongodb-document-model.js
 // =============================================================================
 
@@ -77,7 +77,7 @@ db.churches.insertOne({
   updated_at: ISODate("2026-11-01")
 });
 
-print("â Church document inserted");
+print("[ok] Church document inserted");
 
 // âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 // 3. MEMBERS COLLECTION
@@ -156,7 +156,7 @@ db.members.insertMany([
   }
 ]);
 
-print("â Member documents inserted");
+print("[ok] Member documents inserted");
 
 // âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 // 4. EVENTS COLLECTION
@@ -191,7 +191,7 @@ db.events.insertOne({
   created_at: ISODate("2026-08-30")
 });
 
-print("â Event document inserted");
+print("[ok] Event document inserted");
 
 // âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 // 5. DONATIONS COLLECTION (time-series style)
@@ -241,7 +241,7 @@ db.donations.insertMany([
   }
 ]);
 
-print("â Donation documents inserted");
+print("[ok] Donation documents inserted");
 
 // âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 // 6. SAMPLE QUERIES
@@ -255,7 +255,7 @@ var members = db.members.find(
 );
 printjson(members.toArray());
 
-// Query B: Aggregation pipeline â total donations by type for a church
+// Query B: Aggregation pipeline, total donations by type for a church
 print("\n--- Query B: Donations by type ---");
 var donationsByType = db.donations.aggregate([
   { $match: { church_id: "church_001" } },
@@ -277,7 +277,7 @@ var largeEvents = db.events.find(
 );
 printjson(largeEvents.toArray());
 
-// Query D: Update attendance â add a new check-in to an event (atomic push)
+// Query D: Update attendance, add a new check-in to an event (atomic push)
 print("\n--- Query D: Atomic attendance update ---");
 db.events.updateOne(
   { _id: "evt_001" },
@@ -293,7 +293,7 @@ db.events.updateOne(
     $inc: { attendance_count: 1 }
   }
 );
-print("â New attendee added atomically");
+print("[ok] New attendee added atomically");
 
 // âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 // 7. INDEXES
@@ -305,5 +305,5 @@ db.donations.createIndex({ church_id: 1, date: -1 });
 db.donations.createIndex({ "member.member_id": 1 });
 db.events.createIndex({ church_id: 1, start_time: -1 });
 
-print("\nâ Indexes created");
+print("\n[ok] Indexes created");
 print("\n=== MongoDB Document Model Implementation Complete ===");
