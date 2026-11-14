@@ -1,4 +1,4 @@
-# Redis Key-Value Model â Shepherd App
+# Redis Key-Value Model: Shepherd App
 
 ## Use Case
 
@@ -14,11 +14,11 @@ SET session:usr_001 '{"user_id":"usr_001","church_id":"church_001","role":"pasto
 
 # Retrieve session
 GET session:usr_001
-# â {"user_id":"usr_001","church_id":"church_001","role":"pastor","name":"Emeka Okafor"}
+# -> {"user_id":"usr_001","church_id":"church_001","role":"pastor","name":"Emeka Okafor"}
 
 # Check TTL
 TTL session:usr_001
-# â 3547 (seconds remaining)
+# -> 3547 (seconds remaining)
 ```
 
 **Why Redis:** Sessions are read on every authenticated request. A PostgreSQL lookup per request adds unnecessary latency. Redis provides O(1) lookups with automatic expiry.
@@ -39,7 +39,7 @@ HINCRBY attendance:evt_001 manual 1
 
 # Dashboard reads current count
 HGETALL attendance:evt_001
-# â {"total":"12","manual":"7","qr_code":"3","self_checkin":"2"}
+# -> {"total":"12","manual":"7","qr_code":"3","self_checkin":"2"}
 ```
 
 **Why Redis:** During a live service, the attendance counter is updated by multiple devices simultaneously (phones scanning QR codes, ushers recording manually). Redis Hashes provide atomic increments without locking overhead.
@@ -75,8 +75,8 @@ GET dashboard:church_001
 ## Architecture Position
 
 ```
-Client â API Server â Redis (cache/session check)
-                    â (cache miss)
+Client -> API Server -> Redis (cache/session check)
+                    v (cache miss)
                PostgreSQL / MongoDB (primary store)
 ```
 
