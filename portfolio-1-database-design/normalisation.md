@@ -1,4 +1,4 @@
-# Normalisation Analysis â Shepherd App Database
+# Normalisation Analysis: Shepherd App Database
 
 ## Overview
 
@@ -34,7 +34,7 @@ To remove redundancy, we extract the repeating groups into their own tables:
 
 - `churches` (church_id PK, name, city, ...)
 - `members` (member_id PK, church_id FK, first_name, last_name, phone, ...)
-- `users` (user_id PK, first_name, last_name, ...) â for the "recorded by" person
+- `users` (user_id PK, first_name, last_name, ...), for the "recorded by" person
 - `donations` (donation_id PK, church_id FK, member_id FK, amount, donation_type, payment_method, donation_date, recorded_by FK)
 
 ### Third Normal Form (3NF)
@@ -50,7 +50,7 @@ There is no transitive dependency. **3NF is satisfied.**
 
 ### BCNF check
 
-**Rule:** for every non-trivial functional dependency X â Y, X must be a superkey.
+**Rule:** for every non-trivial functional dependency X -> Y, X must be a superkey.
 
 The only determinant in `donations` is `donation_id` (the PK), which is trivially a superkey. **BCNF is satisfied.**
 
@@ -61,13 +61,13 @@ The only determinant in `donations` is `donation_id` (the PK), which is triviall
 | Table | PK | Partial deps? | Transitive deps? | NF achieved |
 |---|---|---|---|---|
 | churches | church_id | None (single PK) | None | BCNF |
-| users | user_id | None | None â church details via FK | BCNF |
-| members | member_id | None | None â church/user via FK | BCNF |
-| groups | group_id | None | None â church/leader via FK | BCNF |
-| group_members | group_member_id | None | None â references only FKs | BCNF |
-| events | event_id | None | None â church/creator via FK | BCNF |
-| attendance | attendance_id | None | None â event/member via FK | BCNF |
-| donations | donation_id | None | None â all entities via FK | BCNF |
+| users | user_id | None | None (church details via FK | BCNF |
+| members | member_id | None | None) church/user via FK | BCNF |
+| groups | group_id | None | None (church/leader via FK | BCNF |
+| group_members | group_member_id | None | None) references only FKs | BCNF |
+| events | event_id | None | None (church/creator via FK | BCNF |
+| attendance | attendance_id | None | None) event/member via FK | BCNF |
+| donations | donation_id | None | None, all entities via FK | BCNF |
 | communications | communication_id | None | None | BCNF |
 | communication_recipients | recipient_id | None | None | BCNF |
 | pledges | pledge_id | None | None | BCNF |
