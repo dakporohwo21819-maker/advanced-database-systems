@@ -1,5 +1,5 @@
 -- =============================================================================
--- Shepherd App â Portfolio 2: Query Optimisation Evidence
+-- Shepherd App, Portfolio 2: Query Optimisation Evidence
 -- EXPLAIN ANALYZE before and after indexing
 -- =============================================================================
 
@@ -57,7 +57,7 @@ GROUP  BY m.member_id, m.first_name, m.last_name
 ORDER  BY total_events DESC;
 
 -- âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
--- TEST CASE 3: Complex engagement query (Query 9) â execution plan
+-- TEST CASE 3: Complex engagement query (Query 9), execution plan
 -- âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 EXPLAIN ANALYZE
 WITH att_score AS (
