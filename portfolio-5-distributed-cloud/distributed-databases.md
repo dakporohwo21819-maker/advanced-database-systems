@@ -1,4 +1,4 @@
-# Distributed and Cloud Database Concepts â Shepherd App
+# Distributed and Cloud Database Concepts: Shepherd App
 
 ## 1. Replication
 
@@ -10,7 +10,7 @@ Replication copies data across multiple database servers (replicas) so that if o
 
 | Strategy | How it works | Trade-off |
 |---|---|---|
-| **Single-leader (primaryâreplica)** | One node accepts writes; replicas stream changes asynchronously | Simple, but the leader is a single point of failure for writes |
+| **Single-leader (primary-replica)** | One node accepts writes; replicas stream changes asynchronously | Simple, but the leader is a single point of failure for writes |
 | **Multi-leader** | Multiple nodes accept writes; they synchronise with each other | Better write availability, but conflict resolution is complex |
 | **Leaderless** | Any node accepts reads and writes; quorum decides correctness | Highest availability, but requires careful tuning (R + W > N) |
 
@@ -21,7 +21,7 @@ Shepherd operates as a multi-tenant SaaS serving churches across Nigeria (and po
 ```
                     ââââââââââââââââ
                     â   Primary    â
-     Writes ââââââââ¶â  (Lagos DC)  â
+     Writes âââââââ->â  (Lagos DC)  â
                     ââââââââ¬ââââââââ
                            â WAL streaming
               ââââââââââââââ¼âââââââââââââ
@@ -30,7 +30,7 @@ Shepherd operates as a multi-tenant SaaS serving churches across Nigeria (and po
        â Replica 1â â Replica 2â â Replica 3â
        â (Lagos)  â â (Abuja)  â â (London) â
        ââââââââââââ ââââââââââââ ââââââââââââ
-            â²            â²            â²
+           â²             â²            â²
          Reads        Reads        Reads
        (Lagos       (Northern    (Diaspora
         churches)    churches)    churches)
@@ -38,7 +38,7 @@ Shepherd operates as a multi-tenant SaaS serving churches across Nigeria (and po
 
 **Why this fits:**
 
-1. **Write volume is moderate.** Churches record donations, attendance, and communications â high-value but not high-velocity data. A single leader handles this comfortably.
+1. **Write volume is moderate.** Churches record donations, attendance, and communications, high-value but not high-velocity data. A single leader handles this comfortably.
 2. **Read volume is high during peak hours.** Sunday mornings see simultaneous dashboard loads, attendance lookups, and member searches from hundreds of churches. Read replicas absorb this load.
 3. **Geographic distribution.** Replicas in Abuja and London reduce latency for northern Nigerian and diaspora churches respectively.
 4. **Failover.** If the Lagos primary fails, a replica can be promoted to primary within seconds using PostgreSQL's `pg_promote()` or a managed service's automatic failover.
@@ -60,7 +60,7 @@ Sharding splits a large dataset across multiple database servers, each holding a
 
 | Strategy | How it works | Best for |
 |---|---|---|
-| **Range-based** | Rows split by key range (e.g., church_id 1â1000 on shard 1) | Sequential access patterns |
+| **Range-based** | Rows split by key range (e.g., church_id 1-1000 on shard 1) | Sequential access patterns |
 | **Hash-based** | A hash function distributes rows evenly | Even distribution, avoiding hotspots |
 | **Directory-based** | A lookup table maps each key to its shard | Flexible, but the directory is a bottleneck |
 
@@ -79,13 +79,13 @@ Shepherd's multi-tenant architecture makes it a natural candidate for **tenant-b
      ââââââââââââââ  ââââââââââââââ  ââââââââââââââ
      â  Shard A   â  â  Shard B   â  â  Shard C   â
      â church_id  â  â church_id  â  â church_id  â
-     â iash % 3=0 â  â hash % 3=1 â  â hash % 3=2 â
+     â hash % 3=0 â  â hash % 3=1 â  â hash % 3=2 â
      ââââââââââââââ  ââââââââââââââ  ââââââââââââââ
 ```
 
 **Why `church_id` is the ideal shard key:**
 
-1. **Tenant isolation.** Every query in Shepherd is scoped to a single church (`WHERE church_id = ?`). Sharding by `church_id` ensures all of a church's data â members, donations, attendance, events â lives on the same shard, eliminating cross-shard joins.
+1. **Tenant isolation.** Every query in Shepherd is scoped to a single church (`WHERE church_id = ?`). Sharding by `church_id` ensures all of a church's data (members, donations, attendance, events) lives on the same shard, eliminating cross-shard joins.
 2. **Even distribution.** Hash-based sharding on `church_id` distributes churches evenly, preventing hotspots even if some churches are larger than others (the hash spreads them).
 3. **Independent scaling.** As Shepherd onboards more churches, new shards can be added and existing data rebalanced without downtime (using logical replication or Citus's shard rebalancer).
 
@@ -123,16 +123,16 @@ Since network partitions are unavoidable in distributed systems, the practical c
 
 In PostgreSQL, Shepherd achieves this by:
 
-- **Synchronous replication** for critical tables (donations, pledges) â the primary waits for at least one replica to confirm the write before acknowledging it to the application (CP behaviour).
-- **Asynchronous replication** for non-critical tables (attendance, communications) â the primary acknowledges immediately (AP behaviour, higher throughput).
+- **Synchronous replication** for critical tables (donations, pledges), the primary waits for at least one replica to confirm the write before acknowledging it to the application (CP behaviour).
+- **Asynchronous replication** for non-critical tables (attendance, communications), the primary acknowledges immediately (AP behaviour, higher throughput).
 
 ```sql
 -- PostgreSQL: per-transaction synchronous commit control
--- For donations (CP â must be consistent)
+-- For donations (CP, must be consistent)
 SET LOCAL synchronous_commit = 'on';
 INSERT INTO donations (...) VALUES (...);
 
--- For attendance (AP â prioritise availability)
+-- For attendance (AP, prioritise availability)
 SET LOCAL synchronous_commit = 'local';
 INSERT INTO attendance (...) VALUES (...);
 ```
@@ -149,9 +149,9 @@ INSERT INTO attendance (...) VALUES (...);
 â  â                     VPC (10.0.0.0/16)                        â   â
 â  â                                                              â   â
 â  â  âââââââââââââââ    ââââââââââââââââââââââââââââââââââââ     â   â
-â  â  â  ELB / ALB  âââââ¶â  ECS Fargate (Shepherd API)      â     â   â
+â  â  â  ELB / ALB  âââ->â  ECS Fargate (Shepherd API)      â     â   â
 â  â  âââââââââââââââ    â  - Node.js containers             â     â   â
-â  â                     â  - Auto-scales 2â10 tasks          â     â   â
+â  â                     â  - Auto-scales 2-10 tasks          â     â   â
 â  â                     ââââââââââââââââ¬ââââââââââââââââââââ     â   â
 â  â                                    â                         â   â
 â  â                     ââââââââââââââââ¼ââââââââââââââââââââ     â   â
@@ -212,7 +212,7 @@ For churches subject to Nigeria's Data Protection Regulation (NDPR, 2019):
 | **Failover** | Automatic (Multi-AZ) | Manual or requires tools like Patroni |
 | **Cost** | Higher per-instance cost, lower operational cost | Lower per-instance cost, higher staffing cost |
 | **Customisation** | Limited (no OS access, restricted extensions) | Full control |
-| **Best for Shepherd** | **Yes** â small team, SaaS product, needs reliability over customisation | Only if specific PostgreSQL extensions are unavailable on RDS |
+| **Best for Shepherd** | **Yes**: small team, SaaS product, needs reliability over customisation | Only if specific PostgreSQL extensions are unavailable on RDS |
 
 ## 6. Disaster Recovery Plan
 
