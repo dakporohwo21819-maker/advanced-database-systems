@@ -33,7 +33,7 @@ DETAIL:  Failing row contains (27, 1, 3, -5000.00, NGN, tithe, cash, null, 2026-
 ROLLBACK
                               status                               
 -------------------------------------------------------------------
- SCENARIO 2 RESULT: Transaction rolled back â no changes persisted
+ SCENARIO 2 RESULT: Transaction rolled back, no changes persisted
 (1 row)
 
  donations_after 
