@@ -1,4 +1,4 @@
-# Portfolio 4 â NoSQL and Advanced Data Models
+# Portfolio 4: NoSQL and Advanced Data Models
 
 ## Overview
 
@@ -16,7 +16,7 @@ This portfolio re-models the **Shepherd App** case study using three different N
 
 | Aspect | MongoDB (Document) | Redis (Key-Value) | Neo4j (Graph) |
 |---|---|---|---|
-| **Data shape** | Nested JSON documents | Simple key â value pairs | Nodes + edges |
+| **Data shape** | Nested JSON documents | Simple key -> value pairs | Nodes + edges |
 | **Shepherd use case** | Member profiles, events with embedded attendance, donations | Session tokens, live attendance counters, dashboard cache | Mentorship chains, group co-membership, family links |
 | **Strength** | Flexible schema, embedded related data, powerful aggregation | Sub-millisecond reads, atomic counters, TTL expiry | Relationship traversal, variable-depth queries |
 | **Trade-off** | No multi-document ACID by default (use transactions if needed) | Volatile (in-memory), limited query capability | Poor for bulk aggregation, requires separate store for transactional data |
